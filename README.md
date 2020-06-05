@@ -33,6 +33,10 @@ If you wanna help my project, send your donations to the following wallets:
 BTC: 17kZJHjouZqLmMwntg2M6zzdEW3Jivx79o
 ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
 ```
+# Future plans
+ 1. Tests and fixes a possible bugs
+ 2. Writing free bot
+ 3. Improving stability and performance
 
 # Update log
 
