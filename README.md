@@ -13,13 +13,16 @@ Working with a software product implies a basic understanding of the basics of p
     - Digest::SHA
     - REST::Client
     - Time::HiRes
- 3. Verified Bittrex Account with activated Two-Factor Authentication
- 4. Synchronized time on your host computer
- 5. Internet access to Bittrex API endpoint https://api.bittrex.com/v3
+ 3. Installed git
+ 4. Verified Bittrex Account with activated Two-Factor Authentication
+ 5. Synchronized time on your host computer
+ 6. Internet access to Bittrex API endpoint https://api.bittrex.com/v3
 
 # How to use
 
 ```
+git clone https://github.com/dream-hunter/bittrex-rest-api.git
+cd bittrex-rest-api
 perl APIv3sample.pl
 ```
 # Donations
