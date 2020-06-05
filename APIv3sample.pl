@@ -37,6 +37,11 @@ print "Begin program:\n";
 #
 # Read additional (official) information here: https://bittrex.github.io/api/v3
 #
+# Donations:
+#
+# BTC: 17kZJHjouZqLmMwntg2M6zzdEW3Jivx79o
+# ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
+#
 ###############################################################################################
 #
 #ACCOUNT
