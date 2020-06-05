@@ -8,11 +8,11 @@ Working with a software product implies a basic understanding of the basics of p
 
  1. Installed linux OS (ubuntu/centos etc)
  2. Latest Perl with modules:
-    a. Data::Dumper
-    b. JSON
-    c. Digest::SHA
-    d. REST::Client
-    e. Time::HiRes
+    - a. Data::Dumper
+    - b. JSON
+    - c. Digest::SHA
+    - d. REST::Client
+    - e. Time::HiRes
  3. Verified Bittrex Account with activated Two-Factor Authentication
  4. Synchronized time on your host computer
  5. Internet access to Bittrex API endpoint https://api.bittrex.com/v3
