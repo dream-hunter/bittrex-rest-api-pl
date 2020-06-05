@@ -19,8 +19,9 @@ Working with a software product implies a basic understanding of the basics of p
 
 # How to use
 
-> perl APIv3sample.pl
-
+```
+perl APIv3sample.pl
+```
 # Update log
 
 **2020/06/05**
