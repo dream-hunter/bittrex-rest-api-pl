@@ -17,3 +17,7 @@ Working with a software product implies a basic understanding of the basics of p
  4. Synchronized time on your host computer
  5. Internet access to Bittrex API endpoint https://api.bittrex.com/v3
 
+# Update log
+
+**2020/06/05**
+ Project created
