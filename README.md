@@ -17,6 +17,10 @@ Working with a software product implies a basic understanding of the basics of p
  4. Synchronized time on your host computer
  5. Internet access to Bittrex API endpoint https://api.bittrex.com/v3
 
+# How to use
+
+> perl APIv3sample.pl
+
 # Update log
 
 **2020/06/05**
