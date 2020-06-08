@@ -8,9 +8,6 @@ use JSON        qw(from_json);
 use Digest::SHA qw(hmac_sha512_hex);
 use REST::Client;
 
-#use HTTP::Request;
-#use WWW::Curl::Easy;
-
 $VERSION     = 1.00;
 @ISA         = qw(Exporter);
 @EXPORT      = ();
