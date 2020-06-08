@@ -16,7 +16,7 @@ Working with a software product implies a basic understanding of the basics of p
  3. Installed git
  4. Verified Bittrex Account with activated Two-Factor Authentication
  5. Synchronized time on your host computer
- 6. Internet access to Bittrex API endpoint https://api.bittrex.com/v3
+ 6. Internet access to Bittrex API endpoint https://api.bittrex.com/v3 / https://api.bittrex.com/api/v1.1
 
 # How to use
 
@@ -24,6 +24,7 @@ Working with a software product implies a basic understanding of the basics of p
 git clone https://github.com/dream-hunter/bittrex-rest-api.git
 cd bittrex-rest-api
 perl APIv3sample.pl
+perl APIv11sample.pl
 ```
 # Donations
 
