@@ -41,5 +41,8 @@ ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
 
 # Update log
 
+**2020/06/08**
+ Added module for REST API v1.1
+
 **2020/06/05**
  Project created
