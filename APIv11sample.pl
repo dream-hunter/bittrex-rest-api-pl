@@ -43,7 +43,6 @@ print "Begin program:\n";
 #
 # PUBLIC
 #
-#
 # GET /public/getmarkets
 #    my $markets = get_bittrex_api("public/getmarkets", undef, undef, $loglevel);
 #    print Dumper $markets->{result};
