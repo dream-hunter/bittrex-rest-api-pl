@@ -141,6 +141,7 @@ print "Begin program:\n";
 #    my $depositId = "";
 #    my $deposits = get_deposits($api, "$depositId", undef, $loglevel);
 #    print Dumper $deposits;
+#
 #MARKETS
 #
 #GET /markets
@@ -254,6 +255,7 @@ print "Begin program:\n";
 #    print Dumper $subaccounts;
 #
 #TRANSFERS - NOT A REGULAR FUNCTION! FOR BITTREX PARTNERS ONLY!
+#
 #GET /transfers/sent
 #    my $query = "toSubaccountId='string'&toMasterAccount=boolean&currencySymbol=string&nextPageToken='string'
 #                &previousPageToken='string'&pageSize=Int32&startDate='string'&endDate='string'";
