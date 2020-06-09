@@ -32,7 +32,7 @@ print "Begin program:\n";
 #
 # Be careful using the code. Careless use of the subs below can result in a loss of money!
 #
-# Read additional (official) information here: https://bittrex.github.io/api/v3
+# Read additional (official) information here: https://bittrex.github.io/api/v1-1
 #
 # Donations:
 #
