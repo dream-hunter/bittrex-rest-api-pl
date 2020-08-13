@@ -52,15 +52,19 @@ sub url_request {
     my $response_code = $rest->responseCode();
     if ($response_code == 200) {
         logmessage ("\nurl_request URL response code: $response_code; ",5);
-        my $decoded = from_json($response_body);
+        my $decoded = eval { from_json($response_body) };
+        if ($@) {
+            print "API error. Decode_json failed, invalid json. error:$@\n";
+            return (0, undef);
+        }
         logmessage ("API success: $decoded->{success}; API message: \"$decoded->{message}\". \n",5);
         return ($response_code, $decoded);
     } elsif ($response_code == 404) {
         logmessage ("\nAn error happened. URL response code: $response_code;\n",5);
-        return $response_code, '', undef;
+        return $response_code, undef;
     } else {
         logmessage ("\nAn unhandeled error happened. Return code: $response_code\n",5);
-        return $response_code, '', undef;
+        return $response_code, undef;
     }
 }
 

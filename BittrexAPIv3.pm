@@ -122,7 +122,11 @@ sub url_request_del {
     my $response_code = $rest->responseCode();
     if ($response_code == 200 || $response_code == 201) {
         logmessage ("\nurl_request URL response code: $response_code; ",$loglevel-1);
-        my $decoded = from_json($response_body);
+        my $decoded = eval { from_json($response_body) };
+        if ($@) {
+            print "API error. Decode_json failed, invalid json. error:$@\n";
+            return (0, undef);
+        }
         logmessage ("\nurl_request REST message: \"$response_body\". \n",$loglevel-1);
         return ($response_code, $decoded);
     } elsif ($response_code == 404) {
@@ -169,7 +173,11 @@ sub url_request_get {
     my $response_code = $rest->responseCode();
     if ($response_code == 200 || $response_code == 201) {
         logmessage ("\nurl_request URL response code: $response_code; ",$loglevel-1);
-        my $decoded = from_json($response_body);
+        my $decoded = eval { from_json($response_body) };
+        if ($@) {
+            print "API error. Decode_json failed, invalid json. error:$@\n";
+            return (0, undef);
+        }
         logmessage ("\nurl_request REST message: \"$response_body\". \n",$loglevel-1);
         return ($response_code, $decoded);
     } elsif ($response_code == 404) {
@@ -249,7 +257,11 @@ sub url_request_post {
     my $response_headers = $rest->responseHeaders();
     if ($response_code == 200 || $response_code == 201) {
         logmessage ("\nurl_request URL response code: $response_code; ",$loglevel-1);
-        my $decoded = from_json($response_body);
+        my $decoded = eval { from_json($response_body) };
+        if ($@) {
+            print "API error. Decode_json failed, invalid json. error:$@\n";
+            return (0, undef);
+        }
         logmessage ("\nurl_request REST message: \"$response_body\". \n",$loglevel-1);
         return ($response_code, $decoded);
     } elsif ($response_code == 404) {
