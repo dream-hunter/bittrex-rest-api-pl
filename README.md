@@ -41,6 +41,9 @@ ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
 
 # Update log
 
+**2020/08/13**
+ Fixed check for json_decode to avoid program termination if it fails.
+
 **2020/06/09**
  All API v3.0 subroutines moved from sample file to BittrexAPIv3.pm
 
