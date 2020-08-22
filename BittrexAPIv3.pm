@@ -84,6 +84,7 @@ sub url_request {
     if ($method eq "POST") {
         ($response_code, $decoded) = url_request_post($api, $uri, $parameters, $method, $loglevel)
     }
+    sleep 1;
     return ($response_code, $decoded);
 }
 

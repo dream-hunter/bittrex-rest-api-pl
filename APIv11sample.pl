@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 
+use lib '.';
 use strict;
 use warnings;
 use Data::Dumper;
 use BittrexAPIv11 qw(get_bittrex_api);
-
 
 print "Begin program:\n";
 ###############################################################################################

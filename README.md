@@ -21,6 +21,9 @@ Working with a software product implies a basic understanding of the basics of p
 # How to use
 
 ```
+sudo apt update
+sudo apt upgrade
+sudo apt install librest-client-perl libjson-perl libdata-dumper-concise-perl libdigest-sha-perl libtime-hr-perl
 git clone https://github.com/dream-hunter/bittrex-rest-api.git
 cd bittrex-rest-api
 perl APIv3sample.pl
@@ -40,6 +43,8 @@ ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
  3. Improving stability and performance
 
 # Update log
+**2020/08/22
+ Some minor update for easier use
 
 **2020/08/13**
  Fixed check for json_decode to avoid program termination if it fails.
