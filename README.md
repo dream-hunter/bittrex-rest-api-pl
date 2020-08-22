@@ -23,7 +23,7 @@ Working with a software product implies a basic understanding of the basics of p
 ```
 sudo apt update
 sudo apt upgrade
-sudo apt install librest-client-perl libjson-perl libdata-dumper-concise-perl libdigest-sha-perl libtime-hr-perl
+sudo apt install perl librest-client-perl libjson-perl libdata-dumper-concise-perl libdigest-sha-perl libtime-hr-perl
 git clone https://github.com/dream-hunter/bittrex-rest-api.git
 cd bittrex-rest-api
 perl APIv3sample.pl
