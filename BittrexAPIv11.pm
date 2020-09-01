@@ -11,8 +11,8 @@ use REST::Client;
 $VERSION     = 1.00;
 @ISA         = qw(Exporter);
 @EXPORT      = ();
-@EXPORT_OK   = qw(get_bittrex_api );
-%EXPORT_TAGS =  ( DEFAULT => [qw(&get_bittrex_api )]);
+@EXPORT_OK   = qw(get_bittrex_api);
+%EXPORT_TAGS =  ( DEFAULT => [qw(&get_bittrex_api)]);
 
 sub logmessage {
     my $string = $_[0];

@@ -42,7 +42,34 @@ $VERSION     = 1.00;
     del_withdrawals
     post_withdrawals
 );
-%EXPORT_TAGS =  ( DEFAULT => [qw(&get_bittrex_api )]);
+%EXPORT_TAGS =  ( DEFAULT => [qw(
+    &get_bittrex_api
+    &get_account
+    &get_addresses
+    &post_addresses
+    &get_balances
+    &head_balances
+    &del_conditional_orders
+    &get_conditional_orders
+    &post_conditional_orders
+    &get_currencies
+    &get_deposits
+    &head_deposits
+    &get_markets
+    &head_markets
+    &del_orders
+    &head_orders
+    &get_orders
+    &post_orders
+    &get_ping
+    &get_subaccounts
+    &post_subaccounts
+    &get_transfers
+    &post_transfers
+    &get_withdrawals
+    &del_withdrawals
+    &post_withdrawals
+)]);
 
 ###############################################################################################
 #
