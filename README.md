@@ -1,8 +1,8 @@
 # bittrex-rest-api
 
-This open source project was created to give an understanding of the Bittrex API v1.1/v3.0 in pearl language.
+This open source project was created to give an understanding of the Bittrex Rest API v1.1/v3.0 in pearl language.
 The sample file shows the methods in accordance with the official specification.
-Working with a software product implies a basic understanding of the basics of programming in perl and API.
+Working with the software product implies a basic understanding of the basics of programming in perl and API.
 
 # System prerequisites:
 
