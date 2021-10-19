@@ -14,7 +14,6 @@ print "Begin program:\n";
         "apikey" => "",
         "apisecret" => ""
     };
-
     my $loglevel = 5;
 
 #Sample safe code (no api key required)
