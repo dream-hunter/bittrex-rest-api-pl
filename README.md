@@ -44,6 +44,9 @@ ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
 
 # Update log
 
+**2021/10/20**
+ Added new features announced in Bittrex Changelog
+
 **2020/09/01**
  Minor fixes
 

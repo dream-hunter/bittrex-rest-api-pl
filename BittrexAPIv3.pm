@@ -21,12 +21,17 @@ $VERSION     = 1.00;
     post_addresses
     get_balances
     head_balances
+    post_batch
     del_conditional_orders
     get_conditional_orders
     post_conditional_orders
+    head_conditional_orders
     get_currencies
     get_deposits
     head_deposits
+    get_executions
+    head_executions
+    get_funds_transfer_methods
     get_markets
     head_markets
     del_orders
@@ -49,12 +54,17 @@ $VERSION     = 1.00;
     &post_addresses
     &get_balances
     &head_balances
+    &post_batch
     &del_conditional_orders
     &get_conditional_orders
     &post_conditional_orders
+    &head_conditional_orders
     &get_currencies
     &get_deposits
     &head_deposits
+    &get_executions
+    &head_executions
+    &get_funds_transfer_methods
     &get_markets
     &head_markets
     &del_orders
@@ -418,6 +428,24 @@ sub head_balances {
     }
 }
 
+sub post_batch {
+    my $api = $_[0];
+    my $newBatch = $_[1];
+    my $loglevel = $_[2];
+    my $result = undef;
+    my $apiRequest = "batch";
+    if (!defined $loglevel || $loglevel < 0 || $loglevel > 10) {
+        $loglevel = 1;
+    }
+    $result = get_bittrex_api($apiRequest, $newBatch, $api, "POST", $loglevel-1);
+    if (defined $result) {
+        return $result;
+    } else {
+        logmessage("\npost_batch - error", $loglevel);
+        return undef;
+    }
+}
+
 sub del_conditional_orders {
     my $api = $_[0];
     my $conditionalOrdersPath = $_[1];
@@ -441,13 +469,13 @@ sub del_conditional_orders {
 
 sub get_conditional_orders {
     my $api = $_[0];
-    my $ordersPath = $_[1];
+    my $conditionalOrdersPath = $_[1];
     my $ordersQuery = $_[2];
     my $loglevel = $_[3];
     my $result = undef;
     my $apiRequest = "conditional-orders";
-    if (defined $ordersPath) {
-        $apiRequest .= "/$ordersPath";
+    if (defined $conditionalOrdersPath) {
+        $apiRequest .= "/$conditionalOrdersPath";
     }
     if (defined $ordersQuery) {
         $apiRequest .= "?$ordersQuery";
@@ -459,7 +487,28 @@ sub get_conditional_orders {
     if (defined $result) {
         return $result;
     } else {
-        logmessage("\nget_conditional - error", $loglevel);
+        logmessage("\nget_conditional_orders - error", $loglevel);
+        return undef;
+    }
+}
+
+sub head_conditional_orders {
+    my $api = $_[0];
+    my $conditionalOrdersPath = $_[1];
+    my $loglevel = $_[2];
+    my $result = undef;
+    my $apiRequest = "conditional-orders";
+    if (defined $conditionalOrdersPath) {
+        $apiRequest .= "/$conditionalOrdersPath";
+    }
+    if (!defined $loglevel || $loglevel < 0 || $loglevel > 10) {
+        $loglevel = 1;
+    }
+    $result = get_bittrex_api($apiRequest, undef, $api, "HEAD", $loglevel-1);
+    if (defined $result) {
+        return $result;
+    } else {
+        logmessage("\nhead_conditional_orders - error", $loglevel);
         return undef;
     }
 }
@@ -478,6 +527,77 @@ sub post_conditional_orders {
         return $result;
     } else {
         logmessage("\npost_conditional_orders - error", $loglevel);
+        return undef;
+    }
+}
+
+sub get_executions {
+    my $api = $_[0];
+    my $executionsPath = $_[1];
+    my $executionsQuery = $_[2];
+    my $loglevel = $_[3];
+    my $result = undef;
+    my $apiRequest = "executions";
+    if (defined $executionsPath) {
+        $apiRequest .= "/$executionsPath";
+    }
+    if (defined $executionsQuery) {
+        $apiRequest .= "?$executionsQuery";
+    }
+    if (!defined $loglevel || $loglevel < 0 || $loglevel > 10) {
+        $loglevel = 1;
+    }
+    $result = get_bittrex_api($apiRequest, undef, $api, "GET", $loglevel-1);
+    if (defined $result) {
+        return $result;
+    } else {
+        logmessage("\nget_executions - error", $loglevel);
+        return undef;
+    }
+}
+
+sub head_executions {
+    my $api = $_[0];
+    my $executionsPath = $_[1];
+    my $loglevel = $_[2];
+    my $result = undef;
+    my $apiRequest = "executions";
+    if (defined $executionsPath) {
+        $apiRequest .= "/$executionsPath";
+    }
+    if (!defined $loglevel || $loglevel < 0 || $loglevel > 10) {
+        $loglevel = 1;
+    }
+    $result = get_bittrex_api($apiRequest, undef, $api, "HEAD", $loglevel-1);
+    if (defined $result) {
+        return $result;
+    } else {
+        logmessage("\nexecutions - error", $loglevel);
+        return undef;
+    }
+}
+
+sub get_funds_transfer_methods {
+    my $api = $_[0];
+    my $fundsTransferMethodsPath = $_[1];
+    my $fundsTransferMethodsQuery = $_[2];
+    my $loglevel = $_[3];
+    my $result = undef;
+    my $apiRequest = "funds-transfer-methods";
+    if (defined $fundsTransferMethodsPath) {
+        $apiRequest .= "/$fundsTransferMethodsPath";
+    }
+    if (defined $fundsTransferMethodsQuery) {
+        $apiRequest .= "?$fundsTransferMethodsQuery";
+    }
+    if (!defined $loglevel || $loglevel < 0 || $loglevel > 10) {
+        $loglevel = 1;
+    }
+    $result = get_bittrex_api($apiRequest, undef, $api, "GET", $loglevel-1);
+    if (defined $result) {
+        return $result;
+    } else {
+        logmessage("\nget_funds_transfer_methods - error", $loglevel);
         return undef;
     }
 }

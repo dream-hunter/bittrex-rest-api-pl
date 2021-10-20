@@ -11,12 +11,17 @@ use BittrexAPIv3 qw(
     post_addresses
     get_balances
     head_balances
+    post_batch
     del_conditional_orders
     get_conditional_orders
     post_conditional_orders
+    head_conditional_orders
     get_currencies
     get_deposits
     head_deposits
+    get_executions
+    head_executions
+    get_funds_transfer_methods
     get_markets
     head_markets
     del_orders
@@ -38,24 +43,31 @@ print "Begin program:\n";
 ###############################################################################################
 # Global variables
 ###############################################################################################
-    my $api = {
+    my $loglevel = 10;
+# Getting command line, include -apikey and -apisecret
+    my @args = split("-",join(" ", @ARGV));
+    shift(@args);
+    my $params = {
         "apikey" => "",
         "apisecret" => ""
     };
 
-    my $loglevel = 6;
-
+    foreach my $parameter (values @args) {
+        my @str = split (" ", $parameter);
+        $params->{"$str[0]"} = $str[1];
+    }
+    print Dumper $params;
 #Sample safe code (no api key required)
 
 #    my $ping = get_ping($loglevel);
 #    print " - Server time (frequency of use is restricted): $ping->{serverTime}\n";
 
-    my $currencies = get_currencies(undef, $loglevel);
-    print " - Loaded ". scalar @{ $currencies } ." currencies\n";
-    print "   Sample output \$currencies->[0]:\n". Dumper $currencies->[0];
-    my $markets = get_markets(undef, undef, undef, $loglevel);
-    print " - Loaded ". scalar @{ $markets } ." markets\n";
-    print "   Sample output \$markets->[0]:\n". Dumper $markets->[0];
+#    my $currencies = get_currencies(undef, $loglevel);
+#    print " - Loaded ". scalar @{ $currencies } ." currencies\n";
+#    print "   Sample output \$currencies->[0]:\n". Dumper $currencies->[0];
+#    my $markets = get_markets(undef, undef, undef, $loglevel);
+#    print " - Loaded ". scalar @{ $markets } ." markets\n";
+#    print "   Sample output \$markets->[0]:\n". Dumper $markets->[0];
 
 ###############################################################################################
 #
@@ -75,53 +87,121 @@ print "Begin program:\n";
 #ACCOUNT
 #
 #GET /account
-#    my $account = get_account($api, undef, $loglevel);
+#    my $account = get_account($params, undef, $loglevel);
 #    print Dumper $account;
+#
+#GET /account/fees/trading
+#    my $account = get_account($params, "fees/trading", $loglevel);
+#    print Dumper $account;
+#
+#GET /account/fees/trading/{marketSymbol}
+#    my $account = get_account($params, "fees/trading/BTC-USD", $loglevel);
+#    print Dumper $account;
+#
 #GET /account/volume
-#    my $account = get_account($api, "volume", $loglevel);
+#    my $account = get_account($params, "volume", $loglevel);
+#    print Dumper $account;
+#
+#GET /account/permissions/markets
+#    my $account = get_account($params, "permissions/markets", $loglevel);
+#    print Dumper $account;
+#
+#GET /account/permissions/markets/{marketSymbol}
+#    my $account = get_account($params, "permissions/markets/BTC-USD", $loglevel);
+#    print Dumper $account;
+#
+#GET /account/permissions/currencies
+#    my $account = get_account($params, "permissions/currencies", $loglevel);
+#    print Dumper $account;
+#
+#GET /account/permissions/currencies/{currencySymbol}
+#    my $account = get_account($params, "permissions/currencies/BTC", $loglevel);
 #    print Dumper $account;
 #
 #ADDRESSES
 #
 #GET /addresses
-#    my $addresses = get_addresses($api, undef, $loglevel);
+#    my $addresses = get_addresses($params, undef, $loglevel);
 #    print Dumper $addresses;
+#
 #POST /addresses
 #    my $newAddress = {currencySymbol => "USDT"};
-#    my $addresses = post_addresses($api, $newAddress, $loglevel);
+#    my $addresses = post_addresses($params, $newAddress, $loglevel);
 #    print Dumper $addresses;
+#
 #GET /addresses/{currencySymbol}
-#    my $addresses = get_addresses($api, "BTC", $loglevel);
+#    my $addresses = get_addresses($params, "BTC", $loglevel);
 #    print Dumper $addresses;
 #
 #BALANCES
 #
 #GET /balances
-#    my $balances = get_balances($api, undef, $loglevel);
+#    my $balances = get_balances($params, undef, $loglevel);
 #    print Dumper $balances;
+#
 #HEAD /balances
-#    my $balances_head = head_balances($api, $loglevel);
+#    my $balances_head = head_balances($params, $loglevel);
 #    print Dumper $balances_head;
+#
 #GET /balances/{currencySymbol}
-#    my $balances = get_balances($api, "BTC", $loglevel);
+#    my $balances = get_balances($params, "BTC", $loglevel);
 #    print Dumper $balances;
+#
+#BATCH
+#
+#    my $newBatch = [
+#        {
+#            "resource" => "order",
+#            "operation" => "post",
+#            "payload" => {
+#                "marketSymbol" => "BTC-EUR",
+#                "direction" => "BUY",
+#                "type" => "LIMIT",
+#                "quantity" => 1,
+#                "limit" => 1,
+#                "timeInForce" => "GOOD_TIL_CANCELLED" 
+#            }
+#        },
+#        {
+#            "resource" => "order",
+#            "operation" => "post",
+#            "payload" => {
+#                "marketSymbol" => "ETH-EUR",
+#                "direction" => "BUY",
+#                "type" => "LIMIT",
+#                "quantity" => 1,
+#                "limit" => 1,
+#                "timeInForce" => "GOOD_TIL_CANCELLED" 
+#            }
+#        }
+#    ];
+#    my $batch = post_batch($params, $newBatch, $loglevel);
+#    print Dumper $batch;
 #
 #CONDITIONAL ORDERS
 #
 #GET /conditional-orders/{conditionalOrderId}
 #    my $conditionalOrderId = "0";
-#    my $orders = get_conditional_orders($api, "$conditionalOrderId", undef,$loglevel);
+#    my $orders = get_conditional_orders($params, "$conditionalOrderId", undef,$loglevel);
 #    print Dumper $orders;
+#
 #DELETE /conditional-orders/{conditionalOrderId}
 #    my $conditionalOrderId = "";
-#    my $orders = del_conditional_orders($api, $conditionalOrderId, $loglevel);
+#    my $orders = del_conditional_orders($params, $conditionalOrderId, $loglevel);
 #    print Dumper $orders;
+#
 #GET /conditional-orders/open
-#    my $orders = get_conditional_orders($api, "open", "marketSymbol=BTC-USD", $loglevel);
+#    my $orders = get_conditional_orders($params, "open", "marketSymbol=BTC-USD", $loglevel);
 #    print Dumper $orders;
+#
 #GET /conditional-orders/closed
-#    my $orders = get_conditional_orders($api, "closed", "marketSymbol=USD-BTC", $loglevel);
+#    my $orders = get_conditional_orders($params, "closed", "marketSymbol=USD-BTC", $loglevel);
 #    print Dumper $orders;
+#
+#HEAD /conditional-orders/open
+#    my $orders = head_conditional_orders($params, "open", $loglevel);
+#    print Dumper $orders;
+#
 #POST /conditional-orders
 #    my $newConditialOrder = {
 #        marketSymbol        => "BTC-USD",
@@ -137,7 +217,7 @@ print "Begin program:\n";
 #        }
 #    };
 #    print Dumper $newConditialOrder;
-#    my $orders = post_conditional_orders($api, $newConditialOrder, $loglevel);
+#    my $orders = post_conditional_orders($params, $newConditialOrder, $loglevel);
 #    print Dumper $orders;
 #
 #CURRENCIES
@@ -145,6 +225,7 @@ print "Begin program:\n";
 #GET /currencies
 #    my $currencies = get_currencies(undef, $loglevel);
 #    print Dumper $currencies;
+#
 #GET /currencies/{symbol}
 #    my $currencies = get_currencies("BTC", $loglevel);
 #    print Dumper $currencies;
@@ -152,71 +233,115 @@ print "Begin program:\n";
 #DEPOSITS
 #
 #GET /deposits/open
-#    my $deposits = get_deposits($api, "open", undef, $loglevel);
+#    my $deposits = get_deposits($params, "open", undef, $loglevel);
 #    print Dumper $deposits;
+#
 #HEAD /deposits/open
-#    my $deposits = head_deposits($api, "open", $loglevel);
+#    my $deposits = head_deposits($params, "open", $loglevel);
 #    print Dumper $deposits;
+#
 #GET /deposits/closed
-#    my $deposits = get_deposits($api, "closed", undef, $loglevel);
+#    my $deposits = get_deposits($params, "closed", undef, $loglevel);
 #    print Dumper $deposits;
 #
 #GET /deposits/ByTxId/{txId}
 #    my $txId = "";
-#    my $deposits = get_deposits($api, "ByTxId/$txId", undef, $loglevel);
+#    my $deposits = get_deposits($params, "ByTxId/$txId", undef, $loglevel);
 #    print Dumper $deposits;
+#
 #GET /deposits/{depositId}
 #    my $depositId = "";
-#    my $deposits = get_deposits($api, "$depositId", undef, $loglevel);
+#    my $deposits = get_deposits($params, "$depositId", undef, $loglevel);
 #    print Dumper $deposits;
+#
+#EXECUTIONS
+#
+#GET /executions/{executionId}
+#    my $executionId = "";
+#    my $executions = get_executions($params, $executionId, undef, $loglevel);
+#    print Dumper $executions;
+#
+#GET /executions
+#    my $executionQuery = "marketSymbol=BTC-USD";
+#    my $executions = get_executions($params, undef, $executionQuery, $loglevel);
+#    print Dumper $executions;
+#
+#GET /executions/last-id
+#    my $executions = get_executions($params, "last-id", undef, $loglevel);
+#    print Dumper $executions;
+#
+#HEAD /executions/last-id
+#    my $executions = head_executions($params, "last-id", undef, $loglevel);
+#    print Dumper $executions;
+#
+#FUNDS TRANSFER METHODS
+#
+#GET /funds-transfer-methods/{fundsTransferMethodId}
+#    my $fundsTransferMethodId = "";
+#    my $methods = get_funds_transfer_methods($params, $fundsTransferMethodId, undef, $loglevel);
+#    print Dumper $methods;
 #
 #MARKETS
 #
 #GET /markets
 #    my $markets = get_markets(undef, undef, undef, $loglevel);
 #    print Dumper $markets;
+#
 #GET /markets/summaries
 #    my $markets = get_markets(undef, "summaries", undef, $loglevel);
 #    print Dumper $markets;
+#
 #HEAD /markets/summaries
 #    my $markets = head_markets(undef, "summaries", undef, $loglevel);
 #    print Dumper $markets;
+#
 #GET /markets/tickers
 #    my $markets = get_markets(undef, "tickers", undef, $loglevel);
 #    print Dumper $markets;
+#
 #HEAD /markets/tickers
 #    my $markets = head_markets(undef, "tickers", undef, $loglevel);
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/ticker
 #    my $markets = get_markets("BTC-USD", "ticker", undef, $loglevel);
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}
 #    my $markets = get_markets("BTC-USD", undef, undef, $loglevel);
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/summary
 #    my $markets = get_markets("BTC-USD", "summary", undef, $loglevel);
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/orderbook
 #    my $markets = get_markets("BTC-USD", "orderbook", "depth=25", $loglevel); # depth can be only 1, 25, 500
 #    print Dumper $markets;
 #HEAD /markets/{marketSymbol}/orderbook
 #    my $markets = head_markets("BTC-USD", "orderbook", undef, $loglevel); # depth can be only 1, 25, 500
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/trades
 #    my $markets = get_markets("BTC-USD", "trades", undef, $loglevel); # depth can be only 1, 25, 500
 #    print Dumper $markets;
+#
 #HEAD /markets/{marketSymbol}/trade
 #    my $markets = head_markets("BTC-USD", "trades", undef, $loglevel); # depth can be only 1, 25, 500
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/candles
 #    my $markets = get_markets("BTC-USD", "candles", "candleInterval=HOUR_1", $loglevel); # MINUTE_1, MINUTE_5, HOUR_1, DAY_1
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/candles/{candleInterval}/recent
 #    my $markets = get_markets("BTC-USD", "candles/HOUR_1/recent", undef, $loglevel); # MINUTE_1, MINUTE_5, HOUR_1, DAY_1
 #    print Dumper $markets;
+#
 #HEAD /markets/{marketSymbol}/candles/{candleInterval}/recent
 #    my $markets = head_markets("BTC-USD", "candles/HOUR_1/recent", undef, $loglevel); # MINUTE_1, MINUTE_5, HOUR_1, DAY_1
 #    print Dumper $markets;
+#
 #GET /markets/{marketSymbol}/candles/{candleInterval}/historical/{year}/{month}/{day}
 #    my $markets = get_markets("BTC-USD", "candles/HOUR_1/historical/2020/4/12", undef, $loglevel); # MINUTE_1, MINUTE_5, HOUR_1, DAY_1
 #    print Dumper $markets;
@@ -224,22 +349,36 @@ print "Begin program:\n";
 #ORDERS
 #
 #GET /orders/closed
-#    my $orders = get_orders($api, "closed", "marketSymbol=BTC-USD", $loglevel);
+#    my $orders = get_orders($params, "closed", "marketSymbol=BTC-USD", $loglevel);
 #    print Dumper $orders;
+#
 #GET /orders/open
-#    my $orders = get_orders($api, "open", "marketSymbol=BTC-USD", $loglevel);
+#    my $orders = get_orders($params, "open", "marketSymbol=BTC-USD", $loglevel);
 #    print Dumper $orders;
+#
+#DELETE /orders/open
+#    my $orders = del_orders($params, "open", undef, $loglevel);
+#    print Dumper $orders;
+#
 #HEAD /orders/open
-#    my $orders = head_orders($api, "open", undef, $loglevel);
+#    my $orders = head_orders($params, "open", undef, $loglevel);
 #    print Dumper $orders;
+#
 #GET /orders/{orderId}
 #    my $orderId = "";
-#    my $orders = get_orders($api, $orderId, undef, $loglevel);
+#    my $orders = get_orders($params, $orderId, undef, $loglevel);#
 #    print Dumper $orders;
+#
 #DELETE /orders/{orderId}
 #    my $orderId = "";
-#    my $orders = del_orders($api, $orderId, undef, $loglevel);
+#    my $orders = del_orders($params, $orderId, undef, $loglevel);
 #    print Dumper $orders;
+#
+#GET /orders/{orderId}/executions
+#    my $orderId = "";
+#    my $orders = get_orders($params, $orderId . "/executions", undef, $loglevel);
+#    print Dumper $orders;
+#
 #POST /orders
 #    my $newOrder = {
 #        marketSymbol  => "BTC-USD",            #
@@ -249,7 +388,7 @@ print "Begin program:\n";
 #        limit         => "10.000",             #
 #        timeInForce   => 'GOOD_TIL_CANCELLED'  #GOOD_TIL_CANCELLED, IMMEDIATE_OR_CANCEL, FILL_OR_KILL, POST_ONLY_GOOD_TIL_CANCELLED, BUY_NOW
 #    };
-#    my $orders = post_orders($api, $newOrder, $loglevel);
+#    my $orders = post_orders($params, $newOrder, $loglevel);
 #    print Dumper $orders;
 #
 #PING
@@ -263,7 +402,7 @@ print "Begin program:\n";
 #
 #GET /subaccounts
 #    my $query = "nextPageToken='string'&previousPageToken='string'&pageSize=Int32";
-#    my $subaccounts = get_subaccounts($api, undef, $query, $loglevel);
+#    my $subaccounts = get_subaccounts($params, undef, $query, $loglevel);
 #    print Dumper $subaccounts;
 #POST /subaccounts
 #    my $newSubaccount = {
@@ -275,11 +414,11 @@ print "Begin program:\n";
 #        amount          => "number (double)",
 #        executedAt      => "string (date-time)"
 #    };
-#    my $subaccounts = post_subaccounts($api, $newSubaccount, $loglevel);
+#    my $subaccounts = post_subaccounts($params, $newSubaccount, $loglevel);
 #    print Dumper $subaccounts;
 #GET /subaccounts/{subaccountId}
 #    my $subaccountId = "string";
-#    my $subaccounts = get_subaccounts($api, $subaccountId, undef, $loglevel);
+#    my $subaccounts = get_subaccounts($params, $subaccountId, undef, $loglevel);
 #    print Dumper $subaccounts;
 #
 #TRANSFERS - NOT A REGULAR FUNCTION! FOR BITTREX PARTNERS ONLY!
@@ -287,16 +426,16 @@ print "Begin program:\n";
 #GET /transfers/sent
 #    my $query = "toSubaccountId='string'&toMasterAccount=boolean&currencySymbol=string&nextPageToken='string'
 #                &previousPageToken='string'&pageSize=Int32&startDate='string'&endDate='string'";
-#    my $transfers = get_transfers($api, "sent", $query, $loglevel);
+#    my $transfers = get_transfers($params, "sent", $query, $loglevel);
 #    print Dumper $transfers;
 #GET /transfers/received
 #    my $query = "toSubaccountId='string'&toMasterAccount=boolean&currencySymbol=string&nextPageToken='string'
 #                &previousPageToken='string'&pageSize=Int32&startDate='string'&endDate='string'";
-#    my $transfers = get_transfers($api, "received", $query, $loglevel);
+#    my $transfers = get_transfers($params, "received", $query, $loglevel);
 #    print Dumper $transfers;
 #GET /transfers/{transferId}
 #    my $transferId = "";
-#    my $transfers = get_transfers($api, $transferId, undef, $loglevel);
+#    my $transfers = get_transfers($params, $transferId, undef, $loglevel);
 #    print Dumper $transfers;
 #POST /transfers
 #    my $newTransfer = {
@@ -306,28 +445,28 @@ print "Begin program:\n";
 #        amount => "number (double)",
 #        toMasterAccount => "boolean"
 #    };
-#    my $transfers = post_transfers($api, $newTransfer, $loglevel);
+#    my $transfers = post_transfers($params, $newTransfer, $loglevel);
 #    print Dumper $transfers;
 #
 #WITHRDRAWALS
 #
 #GET /withdrawals/open
-#    my $withdrawals = get_withdrawals($api, "open", undef, $loglevel);
+#    my $withdrawals = get_withdrawals($params, "open", undef, $loglevel);
 #    print Dumper $withdrawals;
 #GET /withdrawals/closed
-#    my $withdrawals = get_withdrawals($api, "closed", undef, $loglevel);
+#    my $withdrawals = get_withdrawals($params, "closed", undef, $loglevel);
 #    print Dumper $withdrawals;
 #GET /withdrawals/ByTxId/{txId}
 #    my $txId = "";
-#    my $withdrawals = get_withdrawals($api, "ByTxId/$txId", undef, $loglevel);
+#    my $withdrawals = get_withdrawals($params, "ByTxId/$txId", undef, $loglevel);
 #    print Dumper $withdrawals;
 #GET /withdrawals/{withdrawalId}
 #    my $withdrawalId = "";
-#    my $withdrawals = get_withdrawals($api, $withdrawalId, undef, $loglevel);
+#    my $withdrawals = get_withdrawals($params, $withdrawalId, undef, $loglevel);
 #    print Dumper $withdrawals;
 #DELETE /withdrawals/{withdrawalId}
 #    my $withdrawalId = "";
-#    my $withdrawals = del_withdrawals($api, $withdrawalId, $loglevel);
+#    my $withdrawals = del_withdrawals($params, $withdrawalId, $loglevel);
 #    print Dumper $withdrawals;
 #POST /withdrawals
 #    my $walletid = "";
@@ -336,10 +475,10 @@ print "Begin program:\n";
 #        quantity         => "0.4",
 #        cryptoAddress    => $walletid
 #    };
-#    my $withdrawals = post_withdrawals($api, $newWithdrawal, $loglevel);
+#    my $withdrawals = post_withdrawals($params, $newWithdrawal, $loglevel);
 #    print Dumper $withdrawals;
 #GET /withdrawals/whitelistAddresses
-#    my $withdrawals = get_withdrawals($api, "whitelistAddresses", undef, $loglevel);
+#    my $withdrawals = get_withdrawals($params, "whitelistAddresses", undef, $loglevel);
 #    print Dumper $withdrawals;
 #
 ###############################################################################################
