@@ -39,11 +39,11 @@ use BittrexAPIv3 qw(
 );
 
 
-print "Begin program:\n";
+    print "Begin program:\n";
 ###############################################################################################
 # Global variables
 ###############################################################################################
-    my $loglevel = 10;
+    my $loglevel = 5;
 # Getting command line, include -apikey and -apisecret
     my @args = split("-",join(" ", @ARGV));
     shift(@args);
@@ -59,15 +59,15 @@ print "Begin program:\n";
     print Dumper $params;
 #Sample safe code (no api key required)
 
-#    my $ping = get_ping($loglevel);
-#    print " - Server time (frequency of use is restricted): $ping->{serverTime}\n";
+    my $ping = get_ping($loglevel);
+    print " - Server time (frequency of use is restricted): $ping->{serverTime}\n";
 
-#    my $currencies = get_currencies(undef, $loglevel);
-#    print " - Loaded ". scalar @{ $currencies } ." currencies\n";
-#    print "   Sample output \$currencies->[0]:\n". Dumper $currencies->[0];
-#    my $markets = get_markets(undef, undef, undef, $loglevel);
-#    print " - Loaded ". scalar @{ $markets } ." markets\n";
-#    print "   Sample output \$markets->[0]:\n". Dumper $markets->[0];
+    my $currencies = get_currencies(undef, $loglevel);
+    print " - Loaded ". scalar @{ $currencies } ." currencies\n";
+    print "   Sample output \$currencies->[0]:\n". Dumper $currencies->[0];
+    my $markets = get_markets(undef, undef, undef, $loglevel);
+    print " - Loaded ". scalar @{ $markets } ." markets\n";
+    print "   Sample output \$markets->[0]:\n". Dumper $markets->[0];
 
 ###############################################################################################
 #
@@ -88,6 +88,14 @@ print "Begin program:\n";
 #
 #GET /account
 #    my $account = get_account($params, undef, $loglevel);
+#    print Dumper $account;
+#
+#GET /account/fees/fiat
+#    my $account = get_account($params, "fees/fiat", $loglevel);
+#    print Dumper $account;
+#
+#GET /account/fees/fiat/{currencySymbol}
+#    my $account = get_account($params, "fees/fiat/USD", $loglevel);
 #    print Dumper $account;
 #
 #GET /account/fees/trading

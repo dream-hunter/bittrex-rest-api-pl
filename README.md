@@ -44,6 +44,9 @@ ETH: 0xda1be63336b49e25201d2f406f01b1989f6146c1
 
 # Update log
 
+**2023/01/10**
+ Following bittrex api changelog for 01/19/2022 added "GET /account/fees/fiat" method in APIv3sample.pl (example). Updates into main library are not required.
+
 **2021/10/20**
  Added new features announced in Bittrex Changelog
 
